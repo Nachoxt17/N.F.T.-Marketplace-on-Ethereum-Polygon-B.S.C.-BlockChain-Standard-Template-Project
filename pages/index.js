@@ -1,6 +1,9 @@
 import { ethers } from 'ethers'
+//+-The "useEffect" React Hook works like the "constructor (***) {***}" in Solidity, it sets things the First Time than the Website is loaded:_
 import { useEffect, useState } from 'react'
+//+-Axios is a Data Fetching Library:_
 import axios from 'axios'
+//+-Web3Modal allows us to connect the Website with any Ethereum Wallet:_
 import Web3Modal from "web3modal"
 
 import {
@@ -8,32 +11,36 @@ import {
 } from '../config'
 
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
-import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
+import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 
 export default function Home() {
+  //+-Array of N.F.T.s:_
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
   useEffect(() => {
     loadNFTs()
   }, [])
   async function loadNFTs() {    
-    const provider = new ethers.providers.JsonRpcProvider()
+    //+-We Interact with the Ethereum/Polygon Blockchain using "ethers.providers.JsonRpcProvider()":_
+    const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.matic.today")
+    /**+-^^^This "JsonRpcProvider(***)" ONLY SHOULD BE Completed in case of Testing the Project in the Polygon Mumbai TestNet, if you are Testing it in a Local Node
+    you need to Comment the part of |---> "https://rpc-mumbai.matic.today".^^^.*/
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
     const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
     const data = await marketContract.fetchMarketItems()
     
     const items = await Promise.all(data.map(async i => {
       const tokenUri = await tokenContract.tokenURI(i.tokenId)
-      const meta = await axios.get(tokenUri)
+      const metaData = await axios.get(tokenUri)
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
       let item = {
         price,
         tokenId: i.tokenId.toNumber(),
         seller: i.seller,
         owner: i.owner,
-        image: meta.data.image,
-        name: meta.data.name,
-        description: meta.data.description,
+        image: metaData.data.image,
+        name: metaData.data.name,
+        description: metaData.data.description,
       }
       return item
     }))
@@ -62,7 +69,7 @@ export default function Home() {
           {
             nfts.map((nft, i) => (
               <div key={i} className="border shadow rounded-xl overflow-hidden">
-                <img src={nft.image} />
+                <image src={nft.image} />
                 <div className="p-4">
                   <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
                   <div style={{ height: '70px', overflow: 'hidden' }}>

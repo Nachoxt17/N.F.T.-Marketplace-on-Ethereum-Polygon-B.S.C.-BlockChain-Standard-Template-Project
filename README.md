@@ -2,6 +2,14 @@
 
 ![Header](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pfofv47dooojerkmfgr4.png)
 
++-Smart Contract deployed to the Polygon Mumbai TestNet with the account: 0x3E6f93A2E8e966763FC39c76036AEce2d742f3F4
+nftMarket deployed to: https://mumbai.polygonscan.com/address/0xA82146222940d1157f0C5d4eC6e67492BD79003C
+nft deployed to: https://mumbai.polygonscan.com/address/0x87B13D63aF898A7C876001488B04EE0849a98797
+
++-You can get Mumbai TestNet Test Matic Here:_ https://faucet.matic.network
+
++-Possible Improvement:_ In the "NFTMarket.sol" File Add an Administrator Fee that is a % of the Payment of Every Sale.
+
 ### Running this project
 
 #### Gitpod
