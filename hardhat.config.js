@@ -2,7 +2,7 @@ require("@nomiclabs/hardhat-waffle");
 const fs = require('fs');
 const privateKey = fs.readFileSync(".secret").toString().trim() || "01234567890123456789";
 const InfuraOrAlchemyPolygonTestNetURL = fs.readFileSync(".InfuraOrAlchemyPolygonTestNetURL").toString().trim() || "";
-const InfuraOrAlchemyPolygonMainNetURL = fs.readFileSync(".InfuraOrAlchemyPolygonMainNetURL").toString().trim() || "";
+//const InfuraOrAlchemyPolygonMainNetURL = fs.readFileSync(".InfuraOrAlchemyPolygonMainNetURL").toString().trim() || "";
 
 module.exports = {
   defaultNetwork: "hardhat",
@@ -10,16 +10,16 @@ module.exports = {
     hardhat: {
       chainId: 1337
     },
-    mumbai: {
+    /**mumbai: {
       //+-Infura/Alchemy:_
-      url: `${InfuraOrAlchemyPolygonTestNetURL}`,
+      //url: `${InfuraOrAlchemyPolygonTestNetURL}`,
       accounts: [privateKey]
     },
     matic: {
       //+-Infura/Alchemy:_
-      url: `${InfuraOrAlchemyPolygonMainNetURL}`,
+      //url: `${InfuraOrAlchemyPolygonMainNetURL}`,
       accounts: [privateKey]
-    }
+    }*/
   },
   solidity: {
     version: "0.8.4",
