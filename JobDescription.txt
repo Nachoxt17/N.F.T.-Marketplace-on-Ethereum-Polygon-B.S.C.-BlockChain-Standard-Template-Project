@@ -1,0 +1,24 @@
+Need to create a website from sketches,
+1) front-end development (React JS)
+2) smart contract development (Solidity)
+
+The general goal of this project is to build a marketplace, allowing users to buy and sell assets related to their virtual properties via the means of decentralized web technology.
+Each asset will be uniquely identified using a token abstraction, known as Non-Fungible Token (NFT).
+
+
+Core functionality:
+● NFT Token Minting
+● NFT Marketplace
+
+Working Assumptions
+● ERC-721 standard is used as the building block of the asset traceability system, relying on the secured and audited implementation by Open Zeppelin.
+● Application users will have a Metamask wallet setup and knowledge on how to use it, manage their keys and addresses.
+
+Tech Stack:
+● Metamask: wallet integration for interacting with the Ethereum blockchain by a chrome extension
+● Hardhat: the development framework for writing, compiling, migrating and deploying smart contracts
+● Ether.js: library for interacting with smart contracts and the Ethereum blockchain
+● Open Zeppelin: packages providing implementation of standards which are already audited and secure
+● IPFS: protocol for sharing data, in this case asset meta-data, in a distributed and peer-to-peer system
+● Mocha/Chai: tooling for implementing unit testing of smart contracts
+● Javascript/HTML/CSS: Front-End Development with Next.js on Top of React.js.

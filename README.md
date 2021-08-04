@@ -1,71 +1,38 @@
-## Full stack NFT marketplace built with Polygon, Solidity, IPFS, & Next.js
+## Rare Properties N.F.T. Marketplace on Ethereum BlockChain
 
 ![Header](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pfofv47dooojerkmfgr4.png)
 
-+-Smart Contract deployed to the Polygon Mumbai TestNet with the account: 0x3E6f93A2E8e966763FC39c76036AEce2d742f3F4
-nftMarket deployed to: https://mumbai.polygonscan.com/address/0xA82146222940d1157f0C5d4eC6e67492BD79003C
-nft deployed to: https://mumbai.polygonscan.com/address/0x87B13D63aF898A7C876001488B04EE0849a98797
+## +-For Testing the Successful Rare Properties N.F.T. Marketplace DEMO Deployed in the Ropsten Ethereum TestNet:\_
++-Smart Contract deployed to the Ropsten Ethereum TestNet with the account: ------------------
+nftMarket deployed to: https://ropsten.etherscan.io/address/------------------
+nft deployed to: https://ropsten.etherscan.io/address/------------------
 
-+-You can get Mumbai TestNet Test Matic Here:_ https://faucet.matic.network
++-You can get Ropsten Test Ether Here:\_
+https://faucet.dimensions.network
 
-+-Possible Improvement:_ In the "NFTMarket.sol" File Add an Administrator Fee that is a % of the Payment of Every Sale.
++-How to Interact with the Deployed Smart Contract:\_
+https://docs.alchemy.com/alchemy/tutorials/hello-world-smart-contract/interacting-with-a-smart-contract#step-6-update-the-message
 
-### Running this project
-
-#### Gitpod
-
-To deploy this project to Gitpod, follow these steps:
-
-1. Click this link to deploy
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#github.com/dabit3/polygon-ethereum-nextjs-marketplace)
-
-2. In __pages/index.js__, pass in the RPC address given to you by GitPod to the call to `JsonRpcProvider` function:
-
-```javascript
-/* update this: */
-const provider = new ethers.providers.JsonRpcProvider()
-
-/* to this: */
-const provider = new ethers.providers.JsonRpcProvider("https://8545-youendpoint.gitpod.io/")
-```
-
-3. Import the RPC address given to you by GitPod into your MetaMask wallet
-
-![MetaMask RPC Import](wallet.png)
-
-#### Local setup
-
-To run this project locally, follow these steps.
-
-1. Clone the project locally, change into the directory, and install the dependencies:
++-Quick Project start:_
++-(1)-The first things you need to do are cloning this repository and installing its dependencies:
 
 ```sh
-git clone https://github.com/dabit3/polygon-ethereum-nextjs-marketplace.git
-
-cd polygon-ethereum-nextjs-marketplace
-
-# install using NPM or Yarn
 npm install
-
-# or
-
-yarn
 ```
 
-2. Start the local Hardhat node
++-(2)-Start the local Hardhat node:
 
 ```sh
 npx hardhat node
 ```
 
-3. With the network running, deploy the contracts to the local network in a separate terminal window
++-(3)-With the network running, deploy the contracts to the local network in a separate terminal window:
 
 ```sh
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
-4. Start the app
++-(4)-Start the app:
 
 ```
 npm run dev
@@ -73,35 +40,16 @@ npm run dev
 
 ### Configuration
 
-To deploy to Polygon test or main networks, update the configurations located in __hardhat.config.js__ to use a private key and, optionally, deploy to a private RPC like Infura.
+To deploy to Ethereum Test or Main Networks, update the configurations located in __hardhat.config.js__ to use a private key and, optionally, deploy to a private RPC like Infura or Alchemy.
 
 ```javascript
 require("@nomiclabs/hardhat-waffle");
 const fs = require('fs');
 const privateKey = fs.readFileSync(".secret").toString().trim() || "01234567890123456789";
-
-// infuraId is optional if you are using Infura RPC
-const infuraId = fs.readFileSync(".infuraid").toString().trim() || "";
+const InfuraOrAlchemyEthereumTestNetKey = fs.readFileSync(".InfuraOrAlchemyEthereumTestNetKey").toString().trim() || "";
+//const InfuraOrAlchemyEthereumMainNetKey = fs.readFileSync(".InfuraOrAlchemyEthereumMainNetKey").toString().trim() || "";
 
 module.exports = {
-  defaultNetwork: "hardhat",
-  networks: {
-    hardhat: {
-      chainId: 1337
-    },
-    mumbai: {
-      // Infura
-      // url: `https://polygon-mumbai.infura.io/v3/${infuraId}`
-      url: "https://rpc-mumbai.matic.today",
-      accounts: [privateKey]
-    },
-    matic: {
-      // Infura
-      // url: `https://polygon-mainnet.infura.io/v3/${infuraId}`,
-      url: "https://rpc-mainnet.maticvigil.com",
-      accounts: [privateKey]
-    }
-  },
   solidity: {
     version: "0.8.4",
     settings: {
@@ -110,7 +58,24 @@ module.exports = {
         runs: 200
       }
     }
-  }
+  },
+  defaultNetwork: "hardhat",
+  networks: {
+    hardhat: {
+      chainId: 1337
+    },
+    hardhat: {
+      forking: {
+        url: `https://eth-mainnet.alchemyapi.io/v2/${InfuraOrAlchemyEthereumTestNetKey}`,
+        blockNumber: 12610259,
+        //chainId: 1337
+      },
+    },
+    ropsten: {
+      url: `https://eth-ropsten.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
+      accounts: [privateKey],
+    },
+  },
 };
 ```
 
