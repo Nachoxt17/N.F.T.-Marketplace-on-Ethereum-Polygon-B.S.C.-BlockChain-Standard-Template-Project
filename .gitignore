@@ -2,8 +2,10 @@
 
 .secret
 .infuraid
-.InfuraOrAlchemyPolygonTestNetURL
-.InfuraOrAlchemyPolygonMainNetURL
+.InfuraOrAlchemyPolygonTestNetKey
+.InfuraOrAlchemyPolygonMainNetKey
+.InfuraOrAlchemyEthereumTestNetKey
+.InfuraOrAlchemyEthereumMainNetKey
 config.js
 
 # dependencies
