@@ -2,7 +2,7 @@ require("@nomiclabs/hardhat-waffle");
 const fs = require('fs');
 const privateKey = fs.readFileSync(".secret").toString().trim() || "01234567890123456789";
 const InfuraOrAlchemyEthereumTestNetKey = fs.readFileSync(".InfuraOrAlchemyEthereumTestNetKey").toString().trim() || "";
-//const InfuraOrAlchemyEthereumMainNetKey = fs.readFileSync(".InfuraOrAlchemyEthereumMainNetKey").toString().trim() || "";
+const InfuraOrAlchemyEthereumMainNetKey = fs.readFileSync(".InfuraOrAlchemyEthereumMainNetKey").toString().trim() || "";
 
 module.exports = {
   solidity: {
@@ -19,15 +19,12 @@ module.exports = {
     hardhat: {
       chainId: 1337
     },
-    hardhat: {
-      forking: {
-        url: `https://eth-mainnet.alchemyapi.io/v2/${InfuraOrAlchemyEthereumTestNetKey}`,
-        blockNumber: 12610259,
-        //chainId: 1337
-      },
-    },
     ropsten: {
       url: `https://eth-ropsten.alchemyapi.io/v2/${InfuraOrAlchemyEthereumTestNetKey}`,
+      accounts: [privateKey],
+    },
+    mainnet: {
+      url: `https://eth-mainnet.alchemyapi.io/v2/${InfuraOrAlchemyEthereumMainNetKey}`,
       accounts: [privateKey],
     },
   },

@@ -19,6 +19,10 @@ contract NFTMarket is ReentrancyGuard {
   address payable owner;
   //+-Listing Price:_ The Fee that the user Pays for Listing a N.F.T.
   uint256 listingPrice = 0.025 ether;
+  //+-Removing Listing Price:_ The User recovers only the 80% of the Fee that Paid for Listing a N.F.T.
+  uint256 removingListingPrice = 0.020 ether;
+  //+-List of ItemIds by TokenIds.
+  mapping(uint256 => uint256) private tokenIdtoItemId;
 
   //+-AuctionTime. By Default the time is 1 day.
   uint256 public auctionStandardTime = 1 days;
@@ -83,6 +87,7 @@ contract NFTMarket is ReentrancyGuard {
 
     _itemIds.increment();
     uint256 itemId = _itemIds.current();
+    tokenIdtoItemId[tokenId] = itemId;
   
     idToMarketItem[itemId] =  MarketItem(
       itemId,
@@ -105,6 +110,20 @@ contract NFTMarket is ReentrancyGuard {
       price,
       false
     );
+  }
+
+  //+-Removes an item for sale on the Marketplace:_
+  function removeMarketItem(
+    address nftContract,
+    uint256 tokenId
+  ) public payable nonReentrant {
+    require(msg.sender == idToMarketItem[tokenIdtoItemId[tokenId]].seller, "Only the Seller can do this.");
+
+    IERC721(nftContract).transferFrom(address(this), idToMarketItem[tokenIdtoItemId[tokenId]].seller, tokenId);
+    payable(idToMarketItem[tokenIdtoItemId[tokenId]].seller).transfer(removingListingPrice);
+    payable(owner).transfer(listingPrice - removingListingPrice);
+
+    delete idToMarketItem[tokenIdtoItemId[tokenId]];
   }
 
   //+-Creates the sale of a Marketplace Item:_
@@ -138,6 +157,7 @@ contract NFTMarket is ReentrancyGuard {
 
     _itemIds.increment();
     uint256 itemId = _itemIds.current();
+    tokenIdtoItemId[tokenId] = itemId;
 
     auctionEndTimes[itemId] = block.timestamp + (daysAuctionEndTime * auctionStandardTime);
     auctionEnded[itemId] = false;
@@ -186,7 +206,8 @@ contract NFTMarket is ReentrancyGuard {
     emit HighestBidIncrease(msg.sender, msg.value);
   }
 
-  //+-This function needs to be Manually Called when the Time of an EnglishAuction finishes to Reward The Highest Bidder and The N.F.T. Owner.
+  /**+-This function needs to be Manually Called when the Time of an EnglishAuction finishes to Reward The Highest Bidder and The N.F.T. Owner in
+  the case that someone Bidded for the N.F.T. OR to Remove the Listed Item from the Marketplace and return the N.F.T. to the Seller if nobody bidded.*/
   function englishAuctionEnd(address nftContract, uint256 itemId) public nonReentrant {
     if (block.timestamp < auctionEndTimes[itemId]) {
       revert("The auction has not ended yet");
@@ -197,15 +218,29 @@ contract NFTMarket is ReentrancyGuard {
     }
 
     auctionEnded[itemId] = true;
+
+    if (highestBids[itemId] != 0) {
     emit AuctionEnded(highestBidders[itemId], highestBids[itemId]);
 
     idToMarketItem[itemId].seller.transfer(highestBids[itemId]);
     IERC721(nftContract).transferFrom(address(this), highestBidders[itemId], idToMarketItem[itemId].tokenId);
-    idToMarketItem[itemId].owner = payable(msg.sender);
+    idToMarketItem[itemId].owner = payable(highestBidders[itemId]);
     idToMarketItem[itemId].sold = true;
     idToMarketItem[itemId].price = highestBids[itemId];
     _itemsSold.increment();
     payable(owner).transfer(listingPrice);
+    }
+
+    if (highestBids[itemId] == 0) {
+    emit AuctionEnded(address(0), 0);
+
+    IERC721(nftContract).transferFrom(address(this), idToMarketItem[itemId].seller, idToMarketItem[itemId].tokenId);
+
+    payable(idToMarketItem[itemId].seller).transfer(removingListingPrice);
+    payable(owner).transfer(listingPrice - removingListingPrice);
+
+    delete idToMarketItem[itemId];
+    }
   }
 
   //+-Places an item for sale in an Dutch Auction on the Marketplace:_
@@ -223,6 +258,7 @@ contract NFTMarket is ReentrancyGuard {
 
     _itemIds.increment();
     uint256 itemId = _itemIds.current();
+    tokenIdtoItemId[tokenId] = itemId;
 
     dutchAuctionStartTimes[itemId] = block.timestamp;
     auctionEndTimes[itemId] = block.timestamp + (daysAuctionEndTime * auctionStandardTime);
@@ -291,6 +327,24 @@ contract NFTMarket is ReentrancyGuard {
     idToMarketItem[itemId].price = msg.value;
     _itemsSold.increment();
     payable(owner).transfer(listingPrice);
+  }
+
+  /**+-This function needs to be Manually Called when the Time of a DutchAuction finished and nobody bidded to Remove the Listed Item 
+  from the Marketplace and return the N.F.T. to the Seller.*/
+  function dutchAuctionEnd(address nftContract, uint256 itemId) public nonReentrant {
+    if (block.timestamp < auctionEndTimes[itemId]) {
+      revert("The auction has not ended yet");
+    }
+
+    auctionEnded[itemId] = true;
+    emit AuctionEnded(address(0), 0);
+
+    IERC721(nftContract).transferFrom(address(this), idToMarketItem[itemId].seller, idToMarketItem[itemId].tokenId);
+
+    payable(idToMarketItem[itemId].seller).transfer(removingListingPrice);
+    payable(owner).transfer(listingPrice - removingListingPrice);
+
+    delete idToMarketItem[itemId];
   }
 
   //+-Returns all UnSold Market Items:_

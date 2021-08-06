@@ -1,41 +1,52 @@
-describe("NFTMarket", function() {
-  it("Should create and execute market sales", async function() {
-    const Market = await ethers.getContractFactory("NFTMarket")
-    const market = await Market.deploy()
-    await market.deployed()
-    const marketAddress = market.address
+describe("NFTMarket Smart Contract", function() {
 
-    const NFT = await ethers.getContractFactory("NFT")
-    const nft = await NFT.deploy(marketAddress)
+  let NFTMarket;
+  let nftMarketDeployed;
+  let nftMarketAddress;
+  let NFT;
+  let nft;
+  let nftContractAddress;
+  let listingPrice;
+
+  beforeEach(async function() {
+    NFTMarket = await ethers.getContractFactory("NFTMarket")
+    nftMarketDeployed = await NFTMarket.deploy()
+    await nftMarketDeployed.deployed()
+    nftMarketAddress = nftMarketDeployed.address
+
+    NFT = await ethers.getContractFactory("NFT")
+    nft = await NFT.deploy(nftMarketAddress)
     await nft.deployed()
-    const nftContractAddress = nft.address
+    nftContractAddress = nft.address
 
-    let listingPrice = await market.getListingPrice()
+    listingPrice = await nftMarketDeployed.getListingPrice()
     listingPrice = listingPrice.toString()
+  })
 
-    const auctionPrice = ethers.utils.parseUnits('1', 'ether')
+  it("Should Create and Execute Market Sales and Auctions", async function() {
+    const salePrice = ethers.utils.parseUnits('1', 'ether')
 
     //+-Here we simulate that we create 2 N.F.T.s with their Uniform Resource Identifiers:_
     await nft.createToken("https://www.mytokenlocation.com")
     await nft.createToken("https://www.mytokenlocation2.com")
-  
-    await market.createMarketItem(nftContractAddress, 1, auctionPrice, { value: listingPrice })
-    await market.createMarketItem(nftContractAddress, 2, auctionPrice, { value: listingPrice })
-    
-    /**+-By Default if you are Deploying a contract, it will be deployed on the first available account.
+
+    await nftMarketDeployed.createMarketItem(nftContractAddress, 1, salePrice, { value: listingPrice })
+    await nftMarketDeployed.createMarketItem(nftContractAddress, 2, salePrice, { value: listingPrice })
+
+    /**+-By Default if you are Deploying a Smart Contract, it will be deployed on the first available account.
      * We ignore it by using the "_", and we do that in order to have Different Addresses between the Seller
      * (The First Address that we are Ignoring) and the Buyer(The Second Address):_*/
     const [_, buyerAddress] = await ethers.getSigners()
 
-    await market.connect(buyerAddress).createMarketSale(nftContractAddress, 1, { value: auctionPrice})
+    await nftMarketDeployed.connect(buyerAddress).createMarketSale(nftContractAddress, 1, { value: salePrice})
 
-    items = await market.fetchMarketItems()
+    items = await nftMarketDeployed.fetchMarketItems()
     //+-"Promise.all" is for doing Asychronous Mapping:_
     items = await Promise.all(items.map(async i => {
       const tokenUri = await nft.tokenURI(i.tokenId)
       let item = {
         price: i.price.toString(),
-        tokenId: i.price.toString(),
+        tokenId: i.tokenId.toNumber(),
         seller: i.seller,
         owner: i.owner,
         tokenUri
@@ -43,5 +54,36 @@ describe("NFTMarket", function() {
       return item
     }))
     console.log('items: ', items)
+  })
+
+  it("Should be able to Remove Market Sales and Auctions", async function() {
+    const salePrice = ethers.utils.parseUnits('1', 'ether')
+
+    /**+-By Default if you are Deploying a Smart Contract, it will be deployed on the first available account.
+     * We ignore it by using the "_", and we do that in order to have Different Addresses between the Seller
+     * (The First Address that we are Ignoring) and the Market Place Owner(The Second Address):_*/
+    const [sellerAddress, marketplaceOwnerAddress] = await ethers.getSigners()
+
+    //+-Here we simulate that we create 2 N.F.T.s with their Uniform Resource Identifiers:_
+    await nft.connect(sellerAddress).createToken("https://www.mytokenlocation.com")
+
+    await nftMarketDeployed.connect(sellerAddress).createMarketItem(nftContractAddress, 1, salePrice, { value: listingPrice })
+
+    tokensId = await nftMarketDeployed.fetchMarketItems()
+    //+-"Promise.all" is for doing Asychronous Mapping:_
+    tokensId = await Promise.all(tokensId.map(async i => {
+      const tokenUri = await nft.tokenURI(i.tokenId)
+      let itemId = {
+        price: i.price.toString(),
+        tokenId: i.tokenId.toNumber(),
+        seller: i.seller,
+        owner: i.owner,
+        tokenUri
+      }
+      return itemId.tokenId
+    }))
+    console.log('items: ', items)
+
+    await nftMarketDeployed.connect(sellerAddress).removeMarketItem(nftContractAddress, tokensId)
   })
 })
