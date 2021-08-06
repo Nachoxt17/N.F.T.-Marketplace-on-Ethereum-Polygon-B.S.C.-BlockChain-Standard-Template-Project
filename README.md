@@ -1,6 +1,5 @@
 ## Rare Properties N.F.T. Marketplace on Ethereum BlockChain
 
-## +-For Testing the Successful Rare Properties N.F.T. Marketplace DEMO Deployed in the Ropsten Ethereum TestNet:\_
 +-Smart Contract deployed to the Ropsten Ethereum TestNet with the account: ------------------
 nftMarket deployed to: https://ropsten.etherscan.io/address/------------------
 nft deployed to: https://ropsten.etherscan.io/address/------------------
