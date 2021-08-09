@@ -1,8 +1,16 @@
 {
   "name": "n.f.t-marketplace-on-ethereum-and-polygon-with-next.js",
-  "description": "N.F.T-Marketplace-on-Ethereum-and-Polygon-with-Next.js.+-Tutorial:_ https://youtu.be/GKJBEEXUha0 https://dev.to/dabit3/building-scalable-full-stack-apps-on-ethereum-with-polygon-2cfb",
-  "author": "ignacioceaglio@protonmail.com",
   "version": "0.1.0",
+  "description": "N.F.T-Marketplace-on-Ethereum-and-Polygon-with-Next.js.",
+  "author": "ignacioceaglio@protonmail.com",
+  "keywords": [
+    "ethereum",
+    "smart",
+    "contracts",
+    "test",
+    "solidity",
+    "hardhat"
+  ],
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,25 +19,40 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.2",
-    "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "@openzeppelin/contracts": "^4.2.0",
     "axios": "^0.21.1",
     "chai": "^4.3.4",
     "ethereum-waffle": "^3.4.0",
-    "ethers": "^5.4.1",
-    "hardhat": "^2.4.1",
     "ipfs-http-client": "^50.1.2",
     "next": "11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "web3modal": "^1.9.3"
+    "web3modal": "^1.9.3",
+    "dotenv": "^10.0.0",
+    "chai": "4.2.0",
+    "chai-as-promised": "7.1.1",
+    "chai-bignumber": "3.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",
     "eslint": "7.29.0",
     "eslint-config-next": "11.0.1",
     "postcss": "^8.3.5",
-    "tailwindcss": "^2.2.4"
+    "tailwindcss": "^2.2.4",
+    "@nomiclabs/hardhat-ethers": "2.0.2",
+    "@nomiclabs/hardhat-etherscan": "^2.1.1",
+    "@nomiclabs/hardhat-waffle": "2.0.1",
+    "@openzeppelin/contracts": "4.0.0",
+    "@openzeppelin/test-helpers": "*",
+    "@openzeppelin/test-environment": "*",
+    "@openzeppelin/hardhat-upgrades": "*",
+    "@types/chai": "4.2.16",
+    "@types/chai-as-promised": "7.1.3",
+    "ethereum-waffle": "3.3.0",
+    "hardhat": "^2.4.1",
+    "hardhat-gas-reporter": "1.0.4",
+    "hardhat-preprocessor": "0.1.3",
+    "ethers": "^5.4.1",
+    "prettier": "^2.2.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.2"
   }
 }
