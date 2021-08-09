@@ -1,11 +1,16 @@
-## Rare Properties N.F.T. Marketplace on Ethereum BlockChain
+## N.F.T. Marketplace on Ethereum/Polygon/B.S.C. BlockChain Standard Template Project
 
-+-Smart Contract deployed to the Ropsten Ethereum TestNet with the account: ------------------
-nftMarket deployed to: https://ropsten.etherscan.io/address/------------------
-nft deployed to: https://ropsten.etherscan.io/address/------------------
++-Users can Connect their Wallets and **Write Here What Users can do in your D.A.P.P.**.
+
+## +-For Testing the Successful S.C. DEMO Deployed in the Ropsten Ethereum TestNet:\_
+Smart Contract deployed with the account: ------------------
+https://ropsten.etherscan.io/address/------------------
 
 +-You can get Ropsten Test Ether Here:\_
 https://faucet.dimensions.network
+
++-How to Interact with the Deployed Smart Contract:\_
+https://docs.alchemy.com/alchemy/tutorials/hello-world-smart-contract/interacting-with-a-smart-contract#step-6-update-the-message
 
 ## +-Quick Project start:_
 
