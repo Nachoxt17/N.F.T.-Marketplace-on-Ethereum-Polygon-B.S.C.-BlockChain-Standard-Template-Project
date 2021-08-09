@@ -12,43 +12,35 @@ https://faucet.dimensions.network
 +-How to Interact with the Deployed Smart Contract:\_
 https://docs.alchemy.com/alchemy/tutorials/hello-world-smart-contract/interacting-with-a-smart-contract#step-6-update-the-message
 
-## +-Quick Project start:_
+## +-Quick Project start:\_
 
-+-(1)-The first things you need to do are cloning this repository and installing its dependencies:
++-(1)-The first things you need to do are cloning this repository and installing its
+dependencies:
 
 ```sh
 npm install
 ```
 
-+-(2-A)-Duplicate the ".example.InfuraOrAlchemyEthereumTestNetKey" and Rename it deleting the part of ".example" so the Final Result is ".InfuraOrAlchemyEthereumTestNetKey". Here you will have to write your Alchemy (or Infura) Ropsten TestNet Key (NOT the entire URL) within 2 quotes(" ... ").
++-(2)-Copy and Paste the File ".env.example" inside the same Root Folder(You will Duplicate It) and then rename it removing the part of ".example" so that it looks like ".env" and then fill all the Data Needed Inside the File. In the part of "ALCHEMY_API_KEY"
+just write the KEY, not the whole URL.
 
-+-(2-B)-Duplicate the ".example.secret" and Rename it deleting the part of ".example" so the Final Result is ".secret". Here you will have to write your Wallet Private Key WITHOUT quotes. Your wallet needs to have enough Ropsten Test Ether in order to Deploy the Smart Contract.
-
-+-(2-C)-Duplicate the ".example.InfuraOrAlchemyEthereumMainNetKey" and Rename it deleting the part of ".example" so the Final Result is ".InfuraOrAlchemyEthereumMainNetKey". Here you will have to write your Alchemy (or Infura) Ethereum MainNet Key (NOT the entire URL) within 2 quotes(" ... "). You can use the same Wallet(and the same Private Key) that you used to Deploy the Ropsten TestNet Smart Contract. Your wallet needs to have enough Ether in order to Deploy the Smart Contract.
-
-## +-Testing the Project in a Local Node:_
-
-+-(3)-Now open a 1st Terminal and let's Test your Project in Local Hardhat Node:\_
++-(3-A)-Open a Terminal and let's Test your Project in a Hardhat Local Node. You can also Clone the Ethereum Main Network in your Local Hardhat Node:\_
+https://hardhat.org/guides/mainnet-forking.html
 
 ```sh
 npx hardhat node
 ```
 
-+-(4)-With the network running, Open a 2nd Terminal and Deploy the Smart Contracts to the Local Hardhat Node:\_
++-(3-B)-Now Open a 2nd Terminal and Deploy your Project in the Hardhat Local Node. You can also Test it in the same Terminal:\_
 
 ```sh
 npx hardhat run scripts/deploy.js --network localhost
-```
-
-+-(5)-Now in that same Terminal you can Execute the Tests:\_
-
-```sh
 npx hardhat test
 ```
 
 ## +-Deploying the Project to the Ropsten TestNet:_
 
-+-(6)-Deploy the Smart Contract to the Ropsten Ethereum Test Network(https://hardhat.org/tutorial/deploying-to-a-live-network.html):\_
++-(4)-Deploy the Smart Contract to the Ropsten Ethereum Test Network(https://hardhat.org/tutorial/deploying-to-a-live-network.html):\_
 
 ```sh
 npx hardhat run scripts/deploy.js --network ropsten
@@ -56,8 +48,20 @@ npx hardhat run scripts/deploy.js --network ropsten
 
 ## +-Deploying the Project to the Ethereum MainNet:_
 
-+-(7)-Deploy the Smart Contract to the Ethereum Main Network(https://hardhat.org/tutorial/deploying-to-a-live-network.html):\_
++-(5)-Deploy the Smart Contract to the Ethereum Main Network(https://hardhat.org/tutorial/deploying-to-a-live-network.html):\_
 
 ```sh
 npx hardhat run scripts/deploy.js --network mainnet
+```
+
++-(6)-To Interact with the Deployed S.C. you need to run contract-interact.js:\_
+
+```sh
+node scripts/contract-interact.js
+```
+
++-(8)-Verify your smart contract on Etherscan:\_
+
+```sh
+npx hardhat verify --network ropsten DEPLOYED_SMART_CONTRACT_ADDRESS_ROPSTEN 'Hello World!'
 ```
