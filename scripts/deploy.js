@@ -8,6 +8,7 @@ async function main() {
   console.log("nftMarket deployed to:", nftMarket.address);
 
   const NFT = await hre.ethers.getContractFactory("NFT");
+  //+-We Deploy the N.F.T. Minter Smart Contract using the Argument "nftMarket.addres" because we need to set that Address in the N.F.T. Marketplace:_
   const nft = await NFT.deploy(nftMarket.address);
   await nft.deployed();
   console.log("nft deployed to:", nft.address);
