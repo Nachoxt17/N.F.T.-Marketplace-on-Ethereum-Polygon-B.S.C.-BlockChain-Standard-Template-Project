@@ -362,7 +362,7 @@ contract NFTMarket is ReentrancyGuard {
         );
     }
 
-    function getCurrentPriceDucthAuction(uint256 itemId)
+    function getCurrentPriceDutchAuction(uint256 itemId)
         public
         view
         returns (uint256)
@@ -400,13 +400,13 @@ contract NFTMarket is ReentrancyGuard {
             "The Amount payed must be Higher than the Dutch Auction Ending Price."
         );
         require(
-            msg.value >= getCurrentPriceDucthAuction(itemId),
+            msg.value >= getCurrentPriceDutchAuction(itemId),
             "The Amount payed must be Equal or Higher than the Dutch Auction Current Price. In case of a surplus, it will be returned instantly."
         );
 
-        if (msg.value > getCurrentPriceDucthAuction(itemId)) {
+        if (msg.value > getCurrentPriceDutchAuction(itemId)) {
             payable(msg.sender).transfer(
-                msg.value - getCurrentPriceDucthAuction(itemId)
+                msg.value - getCurrentPriceDutchAuction(itemId)
             );
         }
 
