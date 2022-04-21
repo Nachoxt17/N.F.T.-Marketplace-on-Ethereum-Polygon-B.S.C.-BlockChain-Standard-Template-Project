@@ -1,6 +1,6 @@
 ## N.F.T. Marketplace on Ethereum/Polygon/B.S.C. BlockChain Standard Template Project
 
-+-Users can Connect their Wallets and **Write Here What Users can do in your D.A.P.P.**.
++-Users can Connect their Wallets and Create, Buy and Sell N.F.T.s by Fixed Price Sale, English Auction and Dutch Auction.
 
 ## +-For Testing the Successful S.C. DEMO Deployed in the Ropsten Ethereum TestNet:\_
 Smart Contract deployed with the account: ------------------
