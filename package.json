@@ -13,6 +13,9 @@
   ],
   "private": true,
   "scripts": {
+    "compile": "npx hardhat compile",
+    "node": "npx hardhat node",
+    "test": "npx hardhat test",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
