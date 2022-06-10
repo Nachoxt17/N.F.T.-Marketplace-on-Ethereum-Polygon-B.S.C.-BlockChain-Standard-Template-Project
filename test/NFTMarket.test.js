@@ -41,7 +41,7 @@ describe("NFTMarket Smart Contract", function() {
     await nftMarketDeployed.connect(buyerAddress).createMarketSale(nftContractAddress, 1, { value: salePrice})
 
     items = await nftMarketDeployed.fetchMarketItems()
-    //+-"Promise.all" is for doing Asychronous Mapping:_
+    //+-"Promise.all" is for doing Asynchronous Mapping:_
     items = await Promise.all(items.map(async i => {
       const tokenUri = await nft.tokenURI(i.tokenId)
       let item = {
