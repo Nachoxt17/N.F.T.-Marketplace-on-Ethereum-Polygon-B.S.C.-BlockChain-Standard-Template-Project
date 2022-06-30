@@ -31,7 +31,6 @@ contract NFTMarket is ReentrancyGuard {
     mapping(uint256 => uint256) private highestBids;
     mapping(uint256 => uint256) private auctionEndTimes;
     mapping(uint256 => bool) private auctionEnded;
-    mapping(address => uint256) private pendingReturns;
 
     //+-Parameters of the Dutch Auction:_
     mapping(uint256 => uint256) private dutchAuctionStartingPrices;
