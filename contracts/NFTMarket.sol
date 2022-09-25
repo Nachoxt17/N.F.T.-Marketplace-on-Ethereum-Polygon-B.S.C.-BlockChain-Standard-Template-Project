@@ -235,13 +235,15 @@ contract NFTMarket is ReentrancyGuard {
 
     //+-Creates a Bid for a Marketplace EnglishAuction:_
     function bidEnglishAuction(uint256 itemId) public payable nonReentrant {
-        if (block.timestamp > auctionEndTimes[itemId]) {
-            revert("The auction has already ended");
-        }
-
-        if (msg.value <= highestBids[itemId]) {
-            revert("There is already a higher or equal bid");
-        }
+        require(
+            block.timestamp > auctionEndTimes[itemId],
+            "The auction has already ended"
+        );
+        require(msg.value > 1 wei, "Bid must be > than 1 Wei");
+        require(
+            msg.value > highestBids[itemId],
+            "There is already a higher or equal bid"
+        );
 
         //+-Automatically Returns to the former Highest Bidder its Losing Bid:_
         if (highestBids[itemId] != 0) {
@@ -260,13 +262,8 @@ contract NFTMarket is ReentrancyGuard {
         public
         nonReentrant
     {
-        if (block.timestamp < auctionEndTimes[itemId]) {
-            revert("The auction has not ended yet");
-        }
-
-        if (auctionEnded[itemId]) {
-            revert("The function auctionEnded has already been called");
-        }
+            require(block.timestamp > auctionEndTimes[itemId], "The auction has not ended yet");
+            require(auctionEnded[itemId] == false, "The function auctionEnded has already been called");
 
         auctionEnded[itemId] = true;
 
@@ -366,10 +363,8 @@ contract NFTMarket is ReentrancyGuard {
         view
         returns (uint256)
     {
-        if (block.timestamp > auctionEndTimes[itemId]) {
-            revert("The auction has already ended");
-        }
-
+        require(block.timestamp < auctionEndTimes[itemId], "The auction has already ended");
+        
         uint256 elapsedTime = block.timestamp - dutchAuctionStartTimes[itemId];
         uint256 timeRange = auctionEndTimes[itemId] -
             dutchAuctionStartTimes[itemId];
@@ -386,14 +381,8 @@ contract NFTMarket is ReentrancyGuard {
         payable
         nonReentrant
     {
-        if (block.timestamp < auctionEndTimes[itemId]) {
-            revert("The auction has not ended yet");
-        }
-
-        if (auctionEnded[itemId]) {
-            revert("The function auctionEnded has already been called");
-        }
-
+        require(block.timestamp > auctionEndTimes[itemId], "The auction has not ended yet");
+        require(auctionEnded[itemId] == false, "The function auctionEnded has already been called");
         require(
             msg.value > dutchAuctionEndingPrices[itemId],
             "The Amount payed must be Higher than the Dutch Auction Ending Price."
@@ -431,9 +420,7 @@ contract NFTMarket is ReentrancyGuard {
         public
         nonReentrant
     {
-        if (block.timestamp < auctionEndTimes[itemId]) {
-            revert("The auction has not ended yet");
-        }
+            require(block.timestamp > auctionEndTimes[itemId], "The auction has not ended yet");
 
         auctionEnded[itemId] = true;
         emit AuctionEnded(address(0), 0);
